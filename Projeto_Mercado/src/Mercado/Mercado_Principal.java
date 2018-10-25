@@ -16,6 +16,12 @@ public class Mercado_Principal {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        TelaVenda tela = new TelaVenda();
+        tela.setTitle("Compra e Venda");
+        tela.setLocationRelativeTo(null);
+        tela.setVisible(true);
+        
     }
     
 }
