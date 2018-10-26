@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 public class TelaVenda extends javax.swing.JFrame {
     
     DAO.TelaVendaDAO telaDao = new TelaVendaDAO();
+    
     /**
      * Creates new form TelaVenda
      */
@@ -19,7 +20,7 @@ public class TelaVenda extends javax.swing.JFrame {
         initComponents();
         
     }
-
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,8 +40,8 @@ public class TelaVenda extends javax.swing.JFrame {
         jComboProduto = new javax.swing.JComboBox<>();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
-        BtnVender = new javax.swing.JButton();
-        BtnExcluir = new javax.swing.JButton();
+        btnVender = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         textDescricao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -74,7 +75,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel4.setText("Produto");
 
         jComboProduto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jComboProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Short", "Calça Jeans", "Mouse", "Boné", "Cadeira", "Teclado", "Toalha", "Cinto", " " }));
+        jComboProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[selecione]", "Short", "Calça Jeans", "Mouse", "Boné", "Cadeira", "Teclado", "Toalha", "Cinto", " " }));
         jComboProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboProdutoActionPerformed(evt);
@@ -87,14 +88,15 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 102, 153));
         jLabel5.setText("Quantidade");
 
-        BtnVender.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        BtnVender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/001-checkbox.png"))); // NOI18N
-        BtnVender.setText("Vender");
+        btnVender.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnVender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/001-checkbox.png"))); // NOI18N
+        btnVender.setText("Vender");
+        btnVender.setEnabled(false);
 
-        BtnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        BtnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/002-cancel.png"))); // NOI18N
-        BtnExcluir.setText("Excluir");
-        BtnExcluir.setToolTipText("");
+        btnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/002-cancel.png"))); // NOI18N
+        btnExcluir.setText("Excluir");
+        btnExcluir.setToolTipText("");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 102, 153));
@@ -165,7 +167,7 @@ public class TelaVenda extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(BtnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(textDescricao)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,7 +182,7 @@ public class TelaVenda extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGap(405, 405, 405)
-                                    .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGap(199, 199, 199)
                                     .addComponent(jLabel1))))))
@@ -207,9 +209,9 @@ public class TelaVenda extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jComboProduto, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BtnVender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnVender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BtnExcluir)
+                .addComponent(btnExcluir)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -228,19 +230,26 @@ public class TelaVenda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jComboProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProdutoActionPerformed
         // TODO add your handling code here:
-        
-        System.out.println("item selecionado:"+jComboProduto.getSelectedItem().toString());
-        try {
+        if(!jComboProduto.getSelectedItem().toString().equals("[selecione]")){
             
-            textDescricao.setText(telaDao.descreveProd(jComboProduto.getSelectedItem().toString()));
-            
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(TelaVenda.class.getName()).log(Level.SEVERE, null, ex);
+            btnVender.setEnabled(true);
+            try {
+
+                textDescricao.setText(telaDao.descreveProd(jComboProduto.getSelectedItem().toString()));
+
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(TelaVenda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            textDescricao.setText("Aqui entra uma descrição para o produto selecionado"); 
+            btnVender.setEnabled(false);
         }
     }//GEN-LAST:event_jComboProdutoActionPerformed
 
+    
     /**
      * @param args the command line arguments
      */
@@ -277,9 +286,9 @@ public class TelaVenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnExcluir;
-    private javax.swing.JButton BtnVender;
     private javax.swing.JTable Tabela;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnVender;
     private javax.swing.JComboBox<String> jComboCliente;
     private javax.swing.JComboBox<String> jComboLocal;
     private javax.swing.JComboBox<String> jComboProduto;

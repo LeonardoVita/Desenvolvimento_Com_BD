@@ -22,6 +22,8 @@ public class Mercado_Principal {
         tela.setLocationRelativeTo(null);
         tela.setVisible(true);
         
+        Venda v = new Venda();
+        
     }
     
 }

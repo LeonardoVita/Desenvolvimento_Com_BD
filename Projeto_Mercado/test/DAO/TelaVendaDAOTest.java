@@ -9,6 +9,8 @@ package DAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -83,7 +85,7 @@ public class TelaVendaDAOTest {
         assertEquals(99.5,pr = venda.attTotal(0,"Short",-10),0.09f);
     }
             
-            
+    
    
     
     
