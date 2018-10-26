@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
  * @author Leo
  */
 public class FabricaConexaoTest {
-    private FabricaConexao instance = new FabricaConexao(); ;
-    private Connection conn;
+    private final FabricaConexao instance = new FabricaConexao(); ;
+    private final Connection conn;
     
     public FabricaConexaoTest() throws SQLException, ClassNotFoundException {
         this.conn = instance.conexao();
