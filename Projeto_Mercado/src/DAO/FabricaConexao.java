@@ -42,7 +42,7 @@ public class FabricaConexao {
         return login;
     }
 
-    public String getSenha() {
+    private String getSenha() {
         return senha;
     }
 
