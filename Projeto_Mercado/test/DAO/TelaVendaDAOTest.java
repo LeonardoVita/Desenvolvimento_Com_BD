@@ -6,6 +6,9 @@
 package DAO;
 
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,10 +58,19 @@ public class TelaVendaDAOTest {
     public void descreveProd(){
        String str ;
        
-       assertEquals("Short - R$ 30.99 - Quantidade(60)",
-               str = venda.descreveProd("Short"));
-       assertEquals("Boné - R$ 15 - Quantidade(80)",
+        try {
+            
+            assertEquals("Short - R$ 30.99 - Quantidade(60)",
+                    str = venda.descreveProd("Short"));
+            assertEquals("Boné - R$ 15 - Quantidade(80)",
                str = venda.descreveProd("Boné"));
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaVendaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaVendaDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
         
     }
     

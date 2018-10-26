@@ -1,16 +1,23 @@
 package Mercado;
 
+import DAO.TelaVendaDAO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Leo
  */
 public class TelaVenda extends javax.swing.JFrame {
-
+    
+    DAO.TelaVendaDAO telaDao = new TelaVendaDAO();
     /**
      * Creates new form TelaVenda
      */
     public TelaVenda() {
         initComponents();
+        
     }
 
     /**
@@ -26,20 +33,20 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboCliente = new javax.swing.JComboBox<>();
+        jComboLocal = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboProduto = new javax.swing.JComboBox<>();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         BtnVender = new javax.swing.JButton();
         BtnExcluir = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        textDescricao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabela = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        textTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -56,18 +63,23 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 102, 153));
         jLabel3.setText("Local da Venda");
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboCliente.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jComboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Leonardo", "Thiago", "Larissa", "Pedro", "Ronaldo", "Marcia", "Agatha", "Leandro" }));
 
-        jComboBox2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboLocal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jComboLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rio de Janeiro", "São Paulo", "Rio Grande do Sul", "Minas Gerais", "Bahia" }));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 153));
-        jLabel4.setText("Código do produto");
+        jLabel4.setText("Produto");
 
-        jComboBox3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboProduto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jComboProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Short", "Calça Jeans", "Mouse", "Boné", "Cadeira", "Teclado", "Toalha", "Cinto", " " }));
+        jComboProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboProdutoActionPerformed(evt);
+            }
+        });
 
         jSpinner1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -88,8 +100,8 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 102, 153));
         jLabel6.setText("Descrição do produto");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setText("Aqui entra uma descrição para o produto selecionado");
+        textDescricao.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        textDescricao.setText("Aqui entra uma descrição para o produto selecionado");
 
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,8 +138,8 @@ public class TelaVenda extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(0, 102, 153));
         jLabel7.setText("Total da compra:");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField2.setText("0,00");
+        textTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        textTotal.setText("0,00");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,19 +154,19 @@ public class TelaVenda extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(65, 65, 65)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(BtnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jTextField1)
+                            .addComponent(textDescricao)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
@@ -164,7 +176,7 @@ public class TelaVenda extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(textTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addGap(405, 405, 405)
@@ -185,15 +197,15 @@ public class TelaVenda extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboProduto, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BtnVender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -201,13 +213,13 @@ public class TelaVenda extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(303, 303, 303))
         );
 
@@ -215,6 +227,19 @@ public class TelaVenda extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProdutoActionPerformed
+        // TODO add your handling code here:
+        
+        System.out.println("item selecionado:"+jComboProduto.getSelectedItem().toString());
+        try {
+            
+            textDescricao.setText(telaDao.descreveProd(jComboProduto.getSelectedItem().toString()));
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TelaVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,9 +280,9 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JButton BtnExcluir;
     private javax.swing.JButton BtnVender;
     private javax.swing.JTable Tabela;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboCliente;
+    private javax.swing.JComboBox<String> jComboLocal;
+    private javax.swing.JComboBox<String> jComboProduto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -268,7 +293,7 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField textDescricao;
+    private javax.swing.JTextField textTotal;
     // End of variables declaration//GEN-END:variables
 }

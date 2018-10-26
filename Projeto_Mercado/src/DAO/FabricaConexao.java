@@ -18,7 +18,7 @@ public class FabricaConexao {
     private String servidor = "jdbc:mysql://localhost:3306/";
     private String banco = "aps_mercado";
     private String login = "root";
-    private String senha = null;
+    private String senha = "";
 
     public Connection conexao() throws SQLException, ClassNotFoundException {
 
