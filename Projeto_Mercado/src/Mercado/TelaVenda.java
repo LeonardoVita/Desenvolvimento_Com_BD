@@ -1,9 +1,13 @@
 package Mercado;
 
 import DAO.TelaVendaDAO;
+import DAO.VendaDAO;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,7 +22,7 @@ public class TelaVenda extends javax.swing.JFrame {
      */
     public TelaVenda() {
         initComponents();
-        
+        attTabela();
     }
      
     /**
@@ -66,6 +70,11 @@ public class TelaVenda extends javax.swing.JFrame {
 
         jComboCliente.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jComboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Leonardo", "Thiago", "Larissa", "Pedro", "Ronaldo", "Marcia", "Agatha", "Leandro" }));
+        jComboCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboClienteActionPerformed(evt);
+            }
+        });
 
         jComboLocal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jComboLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rio de Janeiro", "São Paulo", "Rio Grande do Sul", "Minas Gerais", "Bahia" }));
@@ -249,7 +258,33 @@ public class TelaVenda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboProdutoActionPerformed
 
-    
+    private void jComboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboClienteActionPerformed
+        // TODO add your handling code here:
+        attTabela();
+    }//GEN-LAST:event_jComboClienteActionPerformed
+
+    public void attTabela(){
+        
+        Tabela.setAutoResizeMode(Tabela.AUTO_RESIZE_ALL_COLUMNS);
+        DefaultTableModel modelo = (DefaultTableModel) Tabela.getModel();
+        modelo.setNumRows(0);       
+        
+        VendaDAO vdao = new VendaDAO();
+        List<ItemTabela> list = new ArrayList<>();
+        list = vdao.listarVenda(jComboCliente.getSelectedItem().toString());
+        
+        for (ItemTabela p : list) { 
+            
+            modelo.addRow(new Object[]{
+                
+                p.getDescricao(),
+                p.getQtd_venda(),
+                p.getValor_unitario(),
+                p.getValor_Total()
+            });
+        }           
+        
+    }
     /**
      * @param args the command line arguments
      */

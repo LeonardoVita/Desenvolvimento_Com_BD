@@ -19,10 +19,62 @@ public class Venda {
     private int qtd_venda;
     private float valor_total;
     private Date data_venda;
+
     
-    Venda(){
-        System.out.println(this.data_venda);  
+    public Venda(){
+        
+        //System.out.println(this.data_venda);  
     }
+    
+    public int getCodCli() {
+        return CodCli;
+    }
+
+    public void setCodCli(int CodCli) {
+        this.CodCli = CodCli;
+    }
+
+    public int getCodProd() {
+        return CodProd;
+    }
+
+    public void setCodProd(int CodProd) {
+        this.CodProd = CodProd;
+    }
+
+    public int getCodLocal() {
+        return CodLocal;
+    }
+
+    public void setCodLocal(int CodLocal) {
+        this.CodLocal = CodLocal;
+    }
+
+    public int getQtd_venda() {
+        return qtd_venda;
+    }
+
+    public void setQtd_venda(int qtd_venda) {
+        this.qtd_venda = qtd_venda;
+    }
+
+    public float getValor_total() {
+        return valor_total;
+    }
+
+    public void setValor_total(float valor_total) {
+        this.valor_total = valor_total;
+    }
+
+    public Date getData_venda() {
+        return data_venda;
+    }
+
+    public void setData_venda(Date data_venda) {
+        this.data_venda = data_venda;
+    }
+    
+    
     
        
 }
