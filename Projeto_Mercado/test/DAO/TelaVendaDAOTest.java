@@ -76,14 +76,7 @@ public class TelaVendaDAOTest {
         
     }
     
-    @Test
-    public void attTotal(){
-        
-        float pr;
-        assertEquals(309.9,pr = venda.attTotal(0,"Short",10),0.09f);
-        assertEquals(409.4,pr = venda.attTotal(0,"Teclado",5),0.09f);
-        assertEquals(99.5,pr = venda.attTotal(0,"Short",-10),0.09f);
-    }
+    
             
     
    

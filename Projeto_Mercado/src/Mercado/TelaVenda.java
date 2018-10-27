@@ -23,6 +23,7 @@ public class TelaVenda extends javax.swing.JFrame {
     public TelaVenda() {
         initComponents();
         attTabela();
+        attTotal();
     }
      
     /**
@@ -261,8 +262,10 @@ public class TelaVenda extends javax.swing.JFrame {
     private void jComboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboClienteActionPerformed
         // TODO add your handling code here:
         attTabela();
+        attTotal();
     }//GEN-LAST:event_jComboClienteActionPerformed
-
+    
+    /*atualiza tabela venda*/
     public void attTabela(){
         
         Tabela.setAutoResizeMode(Tabela.AUTO_RESIZE_ALL_COLUMNS);
@@ -285,6 +288,20 @@ public class TelaVenda extends javax.swing.JFrame {
         }           
         
     }
+    
+    /*atualiza o valor TOTAL*/
+    public void attTotal(){
+        
+        Float total = 0f;
+        DefaultTableModel dtm = (DefaultTableModel)Tabela.getModel();      
+        
+       for (int x = 0;x <= dtm.getRowCount()-1;x++){
+           total +=Float.parseFloat(dtm.getValueAt(x, 3).toString());
+       }        
+        
+        textTotal.setText(total.toString());
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -48,18 +48,16 @@ public class TelaVendaDAO {
                 + " - Quantidade(" + rs.getString(3) + ")";
         conn.close();
         return desc;
-    }
-
-    public float attTotal(float total, String produto, int qtd) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }   
 
     /* VENDA DO PRODUTO */
- /* calcular desconto*/
- /* calcular preço qtd*unid */
- /* inseri na tabela venda */
- /*atualiza tabela produto*/
- /*atualiza o valor TOTAL*/
+    /* calcular desconto1*/
+    /* calcular desconto2*/
+    /* calcular preço qtd*unid */
+    /* inseri na tabela venda */
+    /*atualiza tabela produto*/
+    
+    
     public DefaultTableModel attTabelaVenda(JTable Table, String Cliente) throws SQLException, ClassNotFoundException {
 
         Connection conn = fabr.conexao();

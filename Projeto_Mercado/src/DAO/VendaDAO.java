@@ -29,6 +29,7 @@ public class VendaDAO {
         
     }
     
+    /*RETORNA UMA LISTA PARA A TABELA VENDA*/
     public List<ItemTabela> listarVenda(String Cliente){
         
         List<ItemTabela> lista = new ArrayList<>();
