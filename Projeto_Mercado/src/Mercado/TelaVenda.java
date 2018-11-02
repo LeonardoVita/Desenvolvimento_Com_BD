@@ -15,13 +15,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaVenda extends javax.swing.JFrame {
     
-    DAO.TelaVendaDAO telaDao = new TelaVendaDAO();
+    DAO.TelaVendaDAO telaDao;
     
     /**
      * Creates new form TelaVenda
      */
     public TelaVenda() {
+        
         initComponents();
+        this.telaDao = new TelaVendaDAO(jComboCliente.getSelectedItem().toString(),"");
         attTabela();
         attTotal();
     }
@@ -102,6 +104,11 @@ public class TelaVenda extends javax.swing.JFrame {
         btnVender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/001-checkbox.png"))); // NOI18N
         btnVender.setText("Vender");
         btnVender.setEnabled(false);
+        btnVender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVenderActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/002-cancel.png"))); // NOI18N
@@ -261,9 +268,15 @@ public class TelaVenda extends javax.swing.JFrame {
 
     private void jComboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboClienteActionPerformed
         // TODO add your handling code here:
+        this.telaDao = new TelaVendaDAO(jComboCliente.getSelectedItem().toString(),"");
         attTabela();
         attTotal();
     }//GEN-LAST:event_jComboClienteActionPerformed
+
+    private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnVenderActionPerformed
     
     /*atualiza tabela venda*/
     public void attTabela(){
@@ -272,7 +285,7 @@ public class TelaVenda extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) Tabela.getModel();
         modelo.setNumRows(0);       
         
-        VendaDAO vdao = new VendaDAO();
+        VendaDAO vdao = new VendaDAO(jComboCliente.getSelectedItem().toString(),"");
         List<ItemTabela> list = new ArrayList<>();
         list = vdao.listarVenda(jComboCliente.getSelectedItem().toString());
         

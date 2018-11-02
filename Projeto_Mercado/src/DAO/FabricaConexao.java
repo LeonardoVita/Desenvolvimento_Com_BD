@@ -17,12 +17,21 @@ public class FabricaConexao {
 
     private String servidor = "jdbc:mysql://localhost:3306/";
     private String banco = "aps_mercado";
-    private String login = "root";
-    private String senha = "";
+    private String login ;
+    private String senha ;
+    
+    public FabricaConexao(String login,String senha){       
+        setLogin(login);
+        setSenha(senha);
+        
+        
+    }
 
     public Connection conexao() throws SQLException, ClassNotFoundException {
 
         Class.forName("com.mysql.jdbc.Driver");
+        
+        System.out.println("Abrindo conexão // login: "+getLogin()+" Senha: "+getSenha());
         
         return (Connection) DriverManager.getConnection(getServidor()+getBanco()
                 ,getLogin(),getSenha());
@@ -45,5 +54,15 @@ public class FabricaConexao {
     private String getSenha() {
         return senha;
     }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
+    
 
 }

@@ -140,9 +140,48 @@ insert into desconto values
 (default,8,15,51,9999);
 
 
+--
+-- CRIANDO USUARIOS SEM SENHA
+--
+
+-- --------------------------------------------------------
 
 
+CREATE USER if not exists 'Leonardo'@'localhost' IDENTIFIED BY '';
 
+GRANT ALL PRIVILEGES ON * . * TO 'Leonardo'@'localhost';
+
+CREATE USER if not exists 'Leandro'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Leandro'@'localhost';
+
+CREATE USER if not exists 'Agatha'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Agatha'@'localhost';
+
+CREATE USER if not exists 'Larissa'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Larissa'@'localhost';
+
+CREATE USER if not exists 'Marcia'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Marcia'@'localhost';
+
+CREATE USER if not exists 'Maria'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Maria'@'localhost';
+
+CREATE USER if not exists 'Pedro'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Pedro'@'localhost';
+
+CREATE USER if not exists 'Ronaldo'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Ronaldo'@'localhost';
+
+CREATE USER if not exists 'Thiago'@'localhost' IDENTIFIED BY '';
+
+GRANT ALL PRIVILEGES ON * . * TO 'Thiago'@'localhost';
 
 
 

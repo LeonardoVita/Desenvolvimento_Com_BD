@@ -22,17 +22,21 @@ import java.util.logging.Logger;
  */
 public class VendaDAO {
     
-    FabricaConexao fabr = new FabricaConexao();
+    private String login;
+    private String senha;    
+    FabricaConexao fabr;
     
     
-    public VendaDAO(){
-        
+    public VendaDAO(String login,String senha){        
+       setLogin(login);
+       setSenha(senha);
+       this.fabr = new FabricaConexao(getLogin(),getSenha());
     }
     
     /*RETORNA UMA LISTA PARA A TABELA VENDA*/
     public List<ItemTabela> listarVenda(String Cliente){
         
-        List<ItemTabela> lista = new ArrayList<>();
+        List<ItemTabela> lista = new ArrayList<>();       
         
         try {
             
@@ -55,6 +59,7 @@ public class VendaDAO {
             } 
             
             con.close();
+            System.out.println("Conexão fechada //listar vendas");
             
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VendaDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,4 +67,22 @@ public class VendaDAO {
         
       return lista;
     }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
+    
 }

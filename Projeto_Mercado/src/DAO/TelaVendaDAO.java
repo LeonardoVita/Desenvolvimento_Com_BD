@@ -17,18 +17,24 @@ import javax.swing.table.DefaultTableModel;
  * @author Leo
  */
 public class TelaVendaDAO {
-
-    FabricaConexao fabr = new FabricaConexao();
-
-    ;
     
-    
-    public boolean verificaQTD(int tabela, int pedido) {
+    private String login;
+    private String senha;
+    FabricaConexao fabr;
 
-        boolean bol = (tabela >= pedido) ? true : false;
-        return bol;
-
+    public TelaVendaDAO(String login,String senha){        
+       setLogin(login);
+       setSenha(senha); 
+       this.fabr = new FabricaConexao(getLogin().toString(),getSenha());
     }
+    
+    
+    //public boolean verificaQTD(int tabela, int pedido) {
+
+        //boolean bol = (tabela >= pedido) ? true : false;
+        //return bol;
+
+    //}
 
     public String descreveProd(String produto) throws SQLException, ClassNotFoundException {
 
@@ -47,6 +53,7 @@ public class TelaVendaDAO {
         desc = rs.getString(1) + " - R$ " + rs.getString(2)
                 + " - Quantidade(" + rs.getString(3) + ")";
         conn.close();
+        System.out.println("conexão fechada // descrição de produtos");
         return desc;
     }   
 
@@ -84,4 +91,21 @@ public class TelaVendaDAO {
         return  modelo;      
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
+    
 }
