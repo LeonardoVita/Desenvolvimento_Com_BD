@@ -41,7 +41,7 @@ create table produto(
 CodProd integer auto_increment primary key,
 CodLocal integer,
 descricao varchar(35),
-qtd_estoque integer,
+qtd_estoque integer unsigned,
 preco_unitario float)ENGINE = InnoDB;
 
 alter table produto add constraint localidade_produto_fk
@@ -51,7 +51,7 @@ create table venda(
 CodCli integer,
 CodProd integer,
 CodLocal integer,
-qtd_venda integer,
+qtd_venda integer unsigned,
 valor_total float,
 data_venda date,
 
@@ -112,21 +112,6 @@ insert into produto values
 (default,2,'Teclado',50,19.90),
 (default,5,'Toalha',200,22.80),
 (default,3,'Cinto',100,12.90);
--- (default,1,'Chinelo',90,14.99),
--- ((default,2,'Head-Set',120,80),
--- ((default,5,'Lençol',110,25),
--- ((default,4,'Mesa',20,119.99),
--- ((default,3,'Sapato social',50,79.90),
--- ((default,2,'Microfone',100,25.50),
--- ((default,1,'Camiseta',120,15.90),
--- ((default,1,'Picolé',1000,0.70),
--- ((default,5,'Travesseiro',70,14.99),
--- ((default,3,'Chapéu',30,20.00),
--- ((default,2,'Mouse Pad',150,19.90),
--- ((default,1,'Celular',35,550.00),
--- ((default,3,'Oculos Escuros',80,29.90),
--- ((default,4,'Estante',25,150.00),
--- ((default,5,'Colchão',30,200.00)
 
 insert into desconto values 
 (default,1,10,10,19),
