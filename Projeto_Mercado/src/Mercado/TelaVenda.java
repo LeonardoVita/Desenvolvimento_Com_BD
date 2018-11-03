@@ -2,11 +2,8 @@ package Mercado;
 
 import DAO.TelaVendaDAO;
 import DAO.VendaDAO;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,7 +42,7 @@ public class TelaVenda extends javax.swing.JFrame {
         jComboLocal = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jComboProduto = new javax.swing.JComboBox<>();
-        jSpinner1 = new javax.swing.JSpinner();
+        jSpinnerqtd = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         btnVender = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
@@ -94,7 +91,7 @@ public class TelaVenda extends javax.swing.JFrame {
             }
         });
 
-        jSpinner1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jSpinnerqtd.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 153));
@@ -124,20 +121,20 @@ public class TelaVenda extends javax.swing.JFrame {
 
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Produto", "Quantidade", "Preço Unitario", "Valor Total"
+                "Produto", "Quantidade", "Preço Unitario", "Valor Total", "bonus"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -182,7 +179,7 @@ public class TelaVenda extends javax.swing.JFrame {
                                     .addComponent(jComboLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jSpinnerqtd, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnVender, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(textDescricao)
@@ -225,7 +222,7 @@ public class TelaVenda extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jComboProduto, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpinnerqtd, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnVender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnExcluir)
@@ -250,20 +247,8 @@ public class TelaVenda extends javax.swing.JFrame {
     
     private void jComboProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProdutoActionPerformed
         // TODO add your handling code here:
-        if(!jComboProduto.getSelectedItem().toString().equals("[selecione]")){
-            
-            btnVender.setEnabled(true);
-            try {
-
-                textDescricao.setText(telaDao.descreveProd(jComboProduto.getSelectedItem().toString()));
-
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(TelaVenda.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            textDescricao.setText("Aqui entra uma descrição para o produto selecionado"); 
-            btnVender.setEnabled(false);
-        }
+        attDesc();        
+        jSpinnerqtd.setValue(0);
     }//GEN-LAST:event_jComboProdutoActionPerformed
 
     private void jComboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboClienteActionPerformed
@@ -275,6 +260,17 @@ public class TelaVenda extends javax.swing.JFrame {
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         // TODO add your handling code here:
+        VendaDAO vdDAO = new VendaDAO(jComboCliente.getSelectedItem().toString(),"");
+        
+        Venda vd = vdDAO.getVenda(jComboCliente.getSelectedItem().toString(),
+                jComboLocal.getSelectedItem().toString(),jComboProduto.getSelectedItem().toString(),
+                Integer.parseInt(jSpinnerqtd.getValue().toString()));
+        telaDao.venderProd(vd);
+        attTabela();
+        attDesc();  
+        attTotal();
+         
+        
         
     }//GEN-LAST:event_btnVenderActionPerformed
     
@@ -313,6 +309,18 @@ public class TelaVenda extends javax.swing.JFrame {
        }        
         
         textTotal.setText(total.toString());
+    }
+    
+    public void attDesc(){
+        if(!jComboProduto.getSelectedItem().toString().equals("[selecione]")){
+            
+            btnVender.setEnabled(true);
+            textDescricao.setText(telaDao.descreveProd(jComboProduto.getSelectedItem().toString()));
+            
+        }else{
+            textDescricao.setText("Aqui entra uma descrição para o produto selecionado"); 
+            btnVender.setEnabled(false);
+        }
     }
     
     /**
@@ -366,7 +374,7 @@ public class TelaVenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinnerqtd;
     private javax.swing.JTextField textDescricao;
     private javax.swing.JTextField textTotal;
     // End of variables declaration//GEN-END:variables

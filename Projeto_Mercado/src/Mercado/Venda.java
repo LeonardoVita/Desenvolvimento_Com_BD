@@ -11,19 +11,28 @@ import java.sql.Date;
  *
  * @author Leo
  */
-public class Venda {
+public class Venda {    
     
     private int CodCli;
     private int CodProd;
     private int CodLocal;
     private int qtd_venda;
     private float valor_total;
-    private Date data_venda;
+    private String data_venda;
+    private char bonus;
 
     
     public Venda(){
         
         //System.out.println(this.data_venda);  
+    }
+
+    public char getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(char bonus) {
+        this.bonus = bonus;
     }
     
     public int getCodCli() {
@@ -66,11 +75,11 @@ public class Venda {
         this.valor_total = valor_total;
     }
 
-    public Date getData_venda() {
+    public String getData_venda() {
         return data_venda;
     }
 
-    public void setData_venda(Date data_venda) {
+    public void setData_venda(String data_venda) {
         this.data_venda = data_venda;
     }
     

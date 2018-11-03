@@ -54,7 +54,7 @@
                                       <Component id="jComboLocal" min="-2" pref="166" max="-2" attributes="0"/>
                                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jSpinner1" min="-2" pref="76" max="-2" attributes="0"/>
+                                          <Component id="jSpinnerqtd" min="-2" pref="76" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="btnVender" min="-2" pref="133" max="-2" attributes="0"/>
                                       </Group>
@@ -115,7 +115,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jComboProduto" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jSpinner1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jSpinnerqtd" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnVender" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -252,7 +252,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JSpinner" name="jSpinner1">
+        <Component class="javax.swing.JSpinner" name="jSpinnerqtd">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
@@ -326,16 +326,22 @@
             <Component class="javax.swing.JTable" name="Tabela">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="4">
+                  <Table columnCount="5" rowCount="4">
                     <Column editable="false" title="Produto" type="java.lang.String"/>
                     <Column editable="false" title="Quantidade" type="java.lang.Integer"/>
                     <Column editable="false" title="Pre&#xe7;o Unitario" type="java.lang.Float"/>
                     <Column editable="false" title="Valor Total" type="java.lang.Float"/>
+                    <Column editable="false" title="bonus" type="java.lang.String"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="-1" minWidth="-1" prefWidth="220" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

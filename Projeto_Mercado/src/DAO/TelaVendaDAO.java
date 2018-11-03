@@ -5,10 +5,13 @@
  */
 package DAO;
 
+import Mercado.Venda;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,34 +29,34 @@ public class TelaVendaDAO {
        setLogin(login);
        setSenha(senha); 
        this.fabr = new FabricaConexao(getLogin().toString(),getSenha());
-    }
-    
-    
-    //public boolean verificaQTD(int tabela, int pedido) {
+    }   
 
-        //boolean bol = (tabela >= pedido) ? true : false;
-        //return bol;
-
-    //}
-
-    public String descreveProd(String produto) throws SQLException, ClassNotFoundException {
+    public String descreveProd(String produto)  {
 
         /* realizando operaçoes ao BD*/
-        String desc;
+        String desc = null;
 
-        Connection conn = fabr.conexao();
-        Statement stmt = conn.createStatement();
+        Connection conn;
+        try {
+            conn = fabr.conexao();
+            Statement stmt = conn.createStatement();
 
-        ResultSet rs = stmt.executeQuery("select descricao,preco_unitario ,"
+            ResultSet rs = stmt.executeQuery("select descricao,preco_unitario ,"
                 + "qtd_estoque from produto where descricao ='" + produto + "';");
 
-        /*Montando String*/
-        rs.next();
+            /*Montando String*/
+            rs.next();
 
-        desc = rs.getString(1) + " - R$ " + rs.getString(2)
-                + " - Quantidade(" + rs.getString(3) + ")";
-        conn.close();
-        System.out.println("conexão fechada // descrição de produtos");
+            desc = rs.getString(1) + " - R$ " + rs.getString(2)
+                    + " - Quantidade(" + rs.getString(3) + ")";
+            conn.close();
+            System.out.println("conexão fechada // descrição de produtos");
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaVendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaVendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return desc;
     }   
 
@@ -61,8 +64,7 @@ public class TelaVendaDAO {
     /* calcular desconto1*/
     /* calcular desconto2*/
     /* calcular preço qtd*unid */
-    /* inseri na tabela venda */
-    /*atualiza tabela produto*/
+    
     
     
     public DefaultTableModel attTabelaVenda(JTable Table, String Cliente) throws SQLException, ClassNotFoundException {
@@ -90,6 +92,76 @@ public class TelaVendaDAO {
         
         return  modelo;      
     }
+    
+    
+    public void venderProd(Venda vd){
+            
+        
+        Connection con;
+        Statement stmt;
+        int localFab;
+        float desconto;
+            
+            
+        try {
+            con = fabr.conexao();
+            stmt = con.createStatement();
+            ResultSet rs;
+            
+            try{
+               con.setAutoCommit(false);
+               
+               /*UPDATE NA TABELA PRODUTO*/
+               int x =stmt.executeUpdate("update produto set qtd_estoque = qtd_estoque - "+vd.getQtd_venda()
+                       +" where CodProd ="+vd.getCodProd()+";");
+               
+               System.out.println((x>0)?x+" mudanças foram feita na tabela produto"
+                       :"Nenhuma mudança foi feita");
+               
+               /*CALCULANDO DESCONTO (LOCAL)*/
+               rs=stmt.executeQuery("select Codlocal from produto where CodProd ="+vd.getCodProd());
+               rs.next();
+               localFab = rs.getInt(1);
+               
+               if(localFab == vd.getCodLocal()){
+                   System.out.print("valor original: "+vd.getValor_total()+" ");
+                   vd.setValor_total((float) (vd.getValor_total()-(vd.getValor_total()*0.10)));
+                   System.out.println("Valor com desconto: "+vd.getValor_total());      
+               }else
+                    System.out.println("Produto nao fab no local de compra");
+               
+               /*CALCULANDO DESCONTO BONUS*/
+               
+               
+               
+               /*INSERINDO NA TABELA VENDA*/
+               x= stmt.executeUpdate("insert into venda values (default,"+
+                       vd.getCodCli()+","+vd.getCodProd()+","+
+                       vd.getCodLocal()+","+vd.getQtd_venda()+","+
+                       vd.getValor_total()+",'"+vd.getData_venda()+"');");   
+               
+               con.commit();
+                System.out.println("commit");
+            }catch (SQLException  ex){                
+               con.rollback();
+               System.out.println("rollback");
+               con.setAutoCommit(true);               
+               Logger.getLogger(TelaVendaDAO.class.getName()).log(Level.SEVERE, null, ex); 
+            }finally{
+                con.setAutoCommit(true);
+            }       
+            
+        } catch (SQLException | ClassNotFoundException ex) { 
+            Logger.getLogger(TelaVendaDAO.class.getName()).log(Level.SEVERE, null, ex);            
+        }
+            
+            
+            
+            
+            
+        
+       
+    }  
 
     public String getLogin() {
         return login;

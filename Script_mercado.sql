@@ -48,6 +48,7 @@ alter table produto add constraint localidade_produto_fk
 foreign key (CodLocal) references localidade(CodLocal);
 
 create table venda(
+CodVenda integer auto_increment,
 CodCli integer,
 CodProd integer,
 CodLocal integer,
@@ -55,7 +56,7 @@ qtd_venda integer unsigned,
 valor_total float,
 data_venda date,
 
-primary key (CodCli,CodProd,CodLocal)
+primary key (CodVenda,CodCli,CodProd,CodLocal)
  )ENGINE = InnoDB;
  
  alter table venda add constraint cliente_venda_fk
