@@ -55,6 +55,7 @@ CodLocal integer,
 qtd_venda integer unsigned,
 valor_total float,
 data_venda date,
+bonus enum('S','N'),
 
 primary key (CodVenda,CodCli,CodProd,CodLocal)
  )ENGINE = InnoDB;
