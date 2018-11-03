@@ -132,13 +132,14 @@ public class TelaVendaDAO {
                
                /*CALCULANDO DESCONTO BONUS*/
                
-               
+               vd.setBonus('N');
                
                /*INSERINDO NA TABELA VENDA*/
                x= stmt.executeUpdate("insert into venda values (default,"+
                        vd.getCodCli()+","+vd.getCodProd()+","+
                        vd.getCodLocal()+","+vd.getQtd_venda()+","+
-                       vd.getValor_total()+",'"+vd.getData_venda()+"');");   
+                       vd.getValor_total()+",'"+vd.getData_venda()+"','"+
+                       vd.getBonus()+"');");   
                
                con.commit();
                 System.out.println("commit");

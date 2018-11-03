@@ -43,7 +43,7 @@ public class VendaDAO {
             
             Connection con = fabr.conexao();
             PreparedStatement stmt = con.prepareStatement("select p.descricao, "
-                    + "v.qtd_venda, p.preco_unitario, v.valor_total from venda as v \n" +
+                    + "v.qtd_venda, p.preco_unitario, v.valor_total,v.bonus from venda as v \n" +
                     "inner join produto as p on p.CodProd = v.CodProd\n" +
                     "where CodCli in (select CodCli from Cliente where nome = '"+Cliente+"');");
             ResultSet rs = stmt.executeQuery();    
@@ -54,7 +54,8 @@ public class VendaDAO {
                 iTable.setDescricao(rs.getString(1));
                 iTable.setQtd_venda(rs.getInt(2));
                 iTable.setValor_unitario(rs.getFloat(3));
-                iTable.setValor_Total(rs.getFloat(4));             
+                iTable.setValor_Total(rs.getFloat(4));
+                iTable.setBonus(rs.getString(5));
                 
                 lista.add(iTable);
             } 

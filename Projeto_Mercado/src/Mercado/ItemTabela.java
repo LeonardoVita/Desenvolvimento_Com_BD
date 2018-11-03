@@ -14,6 +14,17 @@ public class ItemTabela {
     private int qtd_venda;
     private float valor_unitario;
     private float valor_Total;
+    private String bonus;
+
+    public String getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(String bonus) {
+        this.bonus = bonus;
+    }
+
+    
 
     public String getDescricao() {
         return descricao;

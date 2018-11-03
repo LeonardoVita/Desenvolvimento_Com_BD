@@ -292,7 +292,8 @@ public class TelaVenda extends javax.swing.JFrame {
                 p.getDescricao(),
                 p.getQtd_venda(),
                 p.getValor_unitario(),
-                p.getValor_Total()
+                p.getValor_Total(),
+                p.getBonus()
             });
         }           
         
