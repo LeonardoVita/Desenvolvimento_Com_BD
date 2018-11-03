@@ -295,6 +295,11 @@ public class TelaVenda extends javax.swing.JFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
         
+        DefaultTableModel modelo = (DefaultTableModel) Tabela.getModel();
+        
+        int CodVenda;
+        
+        CodVenda = (int) modelo.getValueAt(Tabela.getSelectedRow(),0);
         
     }//GEN-LAST:event_btnExcluirActionPerformed
     
