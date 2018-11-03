@@ -19,7 +19,7 @@ public class Venda {
     private int qtd_venda;
     private float valor_total;
     private String data_venda;
-    private char bonus;
+    private String bonus;
 
     
     public Venda(){
@@ -27,11 +27,11 @@ public class Venda {
         //System.out.println(this.data_venda);  
     }
 
-    public char getBonus() {
+    public String getBonus() {
         return bonus;
     }
 
-    public void setBonus(char bonus) {
+    public void setBonus(String bonus) {
         this.bonus = bonus;
     }
     

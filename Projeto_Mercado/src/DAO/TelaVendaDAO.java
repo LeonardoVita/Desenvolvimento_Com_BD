@@ -100,7 +100,7 @@ public class TelaVendaDAO {
         Connection con;
         Statement stmt;
         int localFab;
-        float desconto;
+        int bonus;
             
             
         try {
@@ -112,11 +112,9 @@ public class TelaVendaDAO {
                con.setAutoCommit(false);
                
                /*UPDATE NA TABELA PRODUTO*/
-               int x =stmt.executeUpdate("update produto set qtd_estoque = qtd_estoque - "+vd.getQtd_venda()
+                stmt.executeUpdate("update produto set qtd_estoque = qtd_estoque - "+vd.getQtd_venda()
                        +" where CodProd ="+vd.getCodProd()+";");
-               
-               System.out.println((x>0)?x+" mudanças foram feita na tabela produto"
-                       :"Nenhuma mudança foi feita");
+                          
                
                /*CALCULANDO DESCONTO (LOCAL)*/
                rs=stmt.executeQuery("select Codlocal from produto where CodProd ="+vd.getCodProd());
@@ -126,16 +124,46 @@ public class TelaVendaDAO {
                if(localFab == vd.getCodLocal()){
                    System.out.print("valor original: "+vd.getValor_total()+" ");
                    vd.setValor_total((float) (vd.getValor_total()-(vd.getValor_total()*0.10)));
-                   System.out.println("Valor com desconto: "+vd.getValor_total());      
+                   System.out.println("Valor com desconto Local: "+vd.getValor_total());      
                }else
                     System.out.println("Produto nao fab no local de compra");
                
                /*CALCULANDO DESCONTO BONUS*/
                
-               vd.setBonus('N');
+               rs=stmt.executeQuery("select bonus from cliente where CodCli ="+vd.getCodCli()+";");
+               rs.next();
+               bonus = rs.getInt(1);
+               
+               if(bonus >= 100){
+                   rs=stmt.executeQuery("select qtd_min,qtd_max,percentual from desconto"
+                           + " where CodProd ="+vd.getCodProd());
+                   
+                   while(rs.next()){                         
+                        
+                        if(rs.getInt("qtd_min") <= vd.getQtd_venda() && 
+                               rs.getInt("qtd_max") >= vd.getQtd_venda()){
+                            
+                            vd.setBonus("S");
+                            System.out.println("valor total:"+vd.getValor_total());                          
+                            
+                            float desconto= (float) vd.getValor_total()*(rs.getInt(3)/100f);                     
+                            vd.setValor_total((float)vd.getValor_total()-desconto);
+                            
+                            System.out.println("valor total com desconto bonus:"
+                                    +vd.getValor_total());
+                            
+                            stmt.executeUpdate("update cliente set bonus ="
+                            +"bonus-100 where CodCli ="+vd.getCodCli()+";");                            
+                            break;
+                        }
+                        
+                   }
+                   
+               }
+                  
                
                /*INSERINDO NA TABELA VENDA*/
-               x= stmt.executeUpdate("insert into venda values (default,"+
+                stmt.executeUpdate("insert into venda values (default,"+
                        vd.getCodCli()+","+vd.getCodProd()+","+
                        vd.getCodLocal()+","+vd.getQtd_venda()+","+
                        vd.getValor_total()+",'"+vd.getData_venda()+"','"+
@@ -145,8 +173,7 @@ public class TelaVendaDAO {
                 System.out.println("commit");
             }catch (SQLException  ex){                
                con.rollback();
-               System.out.println("rollback");
-               con.setAutoCommit(true);               
+               System.out.println("rollback");                             
                Logger.getLogger(TelaVendaDAO.class.getName()).log(Level.SEVERE, null, ex); 
             }finally{
                 con.setAutoCommit(true);
@@ -154,15 +181,10 @@ public class TelaVendaDAO {
             
         } catch (SQLException | ClassNotFoundException ex) { 
             Logger.getLogger(TelaVendaDAO.class.getName()).log(Level.SEVERE, null, ex);            
-        }
-            
-            
-            
-            
-            
-        
-       
-    }  
+        }  
+    }
+    
+    
 
     public String getLogin() {
         return login;
