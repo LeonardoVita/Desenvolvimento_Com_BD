@@ -159,7 +159,9 @@ public class TelaVendaDAO {
                         
                    }
                    
-               }
+               }else
+                   System.out.println("Cliente nao tem bonus ou nao comprou qtd suficiente");
+               
                   
                
                /*INSERINDO NA TABELA VENDA*/

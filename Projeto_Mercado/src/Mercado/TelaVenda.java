@@ -111,6 +111,12 @@ public class TelaVenda extends javax.swing.JFrame {
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/002-cancel.png"))); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.setToolTipText("");
+        btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 102, 153));
@@ -121,20 +127,20 @@ public class TelaVenda extends javax.swing.JFrame {
 
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Produto", "Quantidade", "Preço Unitario", "Valor Total", "bonus"
+                "Cod", "Produto", "Quantidade", "Preço Unitario", "Valor Total", "bonus"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -145,9 +151,16 @@ public class TelaVenda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tabela);
         if (Tabela.getColumnModel().getColumnCount() > 0) {
-            Tabela.getColumnModel().getColumn(0).setPreferredWidth(220);
+            Tabela.getColumnModel().getColumn(0).setPreferredWidth(30);
+            Tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
+            Tabela.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -273,6 +286,17 @@ public class TelaVenda extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnVenderActionPerformed
+
+    private void TabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelaMouseClicked
+        // TODO add your handling code here:        
+        btnExcluir.setEnabled(true);
+    }//GEN-LAST:event_TabelaMouseClicked
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
     
     /*atualiza tabela venda*/
     public void attTabela(){
@@ -288,7 +312,7 @@ public class TelaVenda extends javax.swing.JFrame {
         for (ItemTabela p : list) { 
             
             modelo.addRow(new Object[]{
-                
+                p.getCodVenda(),
                 p.getDescricao(),
                 p.getQtd_venda(),
                 p.getValor_unitario(),
@@ -306,7 +330,7 @@ public class TelaVenda extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel)Tabela.getModel();      
         
        for (int x = 0;x <= dtm.getRowCount()-1;x++){
-           total +=Float.parseFloat(dtm.getValueAt(x, 3).toString());
+           total +=Float.parseFloat(dtm.getValueAt(x, 4).toString());
        }        
         
         textTotal.setText(total.toString());

@@ -43,7 +43,7 @@ public class VendaDAO {
             
             Connection con = fabr.conexao();
             PreparedStatement stmt = con.prepareStatement("select p.descricao, "
-                    + "v.qtd_venda, p.preco_unitario, v.valor_total,v.bonus from venda as v \n" +
+                    + "v.qtd_venda, p.preco_unitario, v.valor_total,v.bonus,v.CodVenda from venda as v \n" +
                     "inner join produto as p on p.CodProd = v.CodProd\n" +
                     "where CodCli in (select CodCli from Cliente where nome = '"+Cliente+"');");
             ResultSet rs = stmt.executeQuery();    
@@ -56,6 +56,7 @@ public class VendaDAO {
                 iTable.setValor_unitario(rs.getFloat(3));
                 iTable.setValor_Total(rs.getFloat(4));
                 iTable.setBonus(rs.getString(5));
+                iTable.setCodVenda(rs.getInt(6));
                 
                 lista.add(iTable);
             } 
@@ -102,11 +103,12 @@ public class VendaDAO {
             vd.setValor_total(qtd*rs.getInt(1)); 
             
             con.close();
+            System.out.println("Contruindo objeto Venda // conexão fechada");
             
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VendaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }      
-        System.out.println("IMPRIMINDO OBJETO VD");
+        System.out.println("IMPRIMINDO OBJETO VENDA");
         System.out.println("CodCli: "+vd.getCodCli());
         System.out.println("CodProd: "+vd.getCodProd());
         System.out.println("CodLocal: "+vd.getCodLocal());
