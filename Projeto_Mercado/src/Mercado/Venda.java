@@ -5,8 +5,6 @@
  */
 package Mercado;
 
-import java.sql.Date;
-
 /**
  *
  * @author Leo
@@ -22,9 +20,8 @@ public class Venda {
     private String bonus = "N";
 
     
-    public Venda(){
-        
-        //System.out.println(this.data_venda);  
+    public Venda(){        
+          
     }
 
     public String getBonus() {
@@ -72,7 +69,7 @@ public class Venda {
     }
 
     public void setValor_total(float valor_total) {
-        this.valor_total = valor_total;
+        this.valor_total = valor_total ;
     }
 
     public String getData_venda() {

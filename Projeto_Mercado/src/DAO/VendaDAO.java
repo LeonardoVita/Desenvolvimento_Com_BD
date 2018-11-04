@@ -100,7 +100,7 @@ public class VendaDAO {
             
             rs=stmt.executeQuery("select preco_unitario from produto where descricao ='"+prod+"';");
             rs.next();
-            vd.setValor_total(qtd*rs.getInt(1)); 
+            vd.setValor_total(qtd*rs.getFloat(1)); 
             
             con.close();
             System.out.println("Contruindo objeto Venda // conexão fechada");

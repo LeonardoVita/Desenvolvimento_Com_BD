@@ -2,6 +2,8 @@ package Mercado;
 
 import DAO.TelaVendaDAO;
 import DAO.VendaDAO;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -309,6 +311,7 @@ public class TelaVenda extends javax.swing.JFrame {
         attTabela();
         attDesc();
         attTotal();
+        btnExcluir.setEnabled(false);
         
     }//GEN-LAST:event_btnExcluirActionPerformed
     
@@ -345,9 +348,11 @@ public class TelaVenda extends javax.swing.JFrame {
         
        for (int x = 0;x <= dtm.getRowCount()-1;x++){
            total +=Float.parseFloat(dtm.getValueAt(x, 4).toString());
-       }        
+       }            
         
-        textTotal.setText(total.toString());
+       String strTotal = String.format("%.2f", total); 
+       
+        textTotal.setText(strTotal);
     }
     
     public void attDesc(){
