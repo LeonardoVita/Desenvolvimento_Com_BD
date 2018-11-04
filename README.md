@@ -23,8 +23,11 @@ TUTORIAL
   execute as seguintes modificações
   
   caminho do comando iniciar: C:\wamp64\bin\mysql\mysql5.7.23\bin\mysqld.exe
+  
   Argumentos: --console
+  
   caminho do comando interromper: C:\wamp64\bin\mysql\mysql5.7.23\bin\mysqladmin.exe
+  
   Argumentos: -u root shutdown
   
   *importante encontrar os arquivos mysqld.exe e mysqladmin.exe, caso nao esteja ultilizando WampServer
