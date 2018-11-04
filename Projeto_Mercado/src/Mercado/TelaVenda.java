@@ -285,8 +285,6 @@ public class TelaVenda extends javax.swing.JFrame {
         attTabela();
         attDesc();  
         attTotal();
-         
-        
         
     }//GEN-LAST:event_btnVenderActionPerformed
 
