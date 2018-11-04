@@ -7,6 +7,12 @@ o programa deve gerencias as concorrecias de acesso ao banco e evitar o Deadlock
 
 # Programa Finalizado v1.0
 
+TUTORIAL
+
+1:Rode o Script MySQL em um Servidor Wamp do MySQL na porta: localhost:3306/
+
+2:execute o arquivo Projeto_Mercado.jar em Projeto_Mercado\dist\Projeto_Mercado.jar.
+
 
 
 
