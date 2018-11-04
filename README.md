@@ -22,6 +22,7 @@ TUTORIAL
 6: antes de dar OK, clique em "propriedades de admin" na aba a cima
   execute as seguintes modificações
   
+  
   caminho do comando iniciar: C:\wamp64\bin\mysql\mysql5.7.23\bin\mysqld.exe
   
   Argumentos: --console
@@ -30,8 +31,11 @@ TUTORIAL
   
   Argumentos: -u root shutdown
   
+  
   *importante encontrar os arquivos mysqld.exe e mysqladmin.exe, caso nao esteja ultilizando WampServer
   os caminhos serão diferentes*
+  
+  
  
  7:selecione o banco de dados aps_mercado e depois em conectar
  
