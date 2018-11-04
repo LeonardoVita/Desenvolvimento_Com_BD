@@ -192,9 +192,35 @@ public class TelaVendaDAO {
             try {
                 con.setAutoCommit(false);
 
+                /* TRATAR ESTOQUE */
+                rs=stmt.executeQuery("select CodProd,qtd_venda from venda"
+                        + " where CodVenda ="+CodVenda+";");
+                rs.next();
+                int CodProd = rs.getInt("CodProd");
+                int qtd = rs.getInt("qtd_venda");
+                
+                stmt.executeUpdate("update produto set qtd_estoque ="
+                        + " qtd_estoque+"+qtd+" where CodProd ="+CodProd+";");        
                 
                 
+                /* DEVOLVER BONUS DO CLIENTE */
                 
+                rs=stmt.executeQuery("select bonus from venda"
+                        + " where CodVenda="+CodVenda);                
+                
+                rs.next();
+                if(rs.getString("bonus").equals("S")){
+                   stmt.executeUpdate("update cliente set bonus= bonus+100"
+                           + " where CodCli in(select CodCli from venda"
+                           + " where CodVenda="+CodVenda +")"); 
+                }else{
+                    System.out.println("Compra sem desconto bonus");
+                }              
+                
+                /* DELETAR A VENDA */
+                
+                stmt.executeUpdate("delete from venda where "
+                        + "CodVenda ="+CodVenda);          
                 
                 
                 con.commit();

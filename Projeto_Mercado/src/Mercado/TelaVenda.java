@@ -301,6 +301,13 @@ public class TelaVenda extends javax.swing.JFrame {
         
         CodVenda = (int) modelo.getValueAt(Tabela.getSelectedRow(),0);
         
+        /*EXCLUIR A VENDA*/
+        
+        telaDao.excluirVenda(CodVenda);
+        
+        attTabela();
+        attDesc();
+        attTotal();
     }//GEN-LAST:event_btnExcluirActionPerformed
     
     /*atualiza tabela venda*/
