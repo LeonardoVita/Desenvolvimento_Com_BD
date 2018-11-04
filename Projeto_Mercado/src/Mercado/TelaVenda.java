@@ -92,6 +92,7 @@ public class TelaVenda extends javax.swing.JFrame {
         });
 
         jSpinnerqtd.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jSpinnerqtd.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 153));
@@ -261,7 +262,7 @@ public class TelaVenda extends javax.swing.JFrame {
     private void jComboProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboProdutoActionPerformed
         // TODO add your handling code here:
         attDesc();        
-        jSpinnerqtd.setValue(0);
+        jSpinnerqtd.setValue(1);
     }//GEN-LAST:event_jComboProdutoActionPerformed
 
     private void jComboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboClienteActionPerformed
@@ -308,6 +309,7 @@ public class TelaVenda extends javax.swing.JFrame {
         attTabela();
         attDesc();
         attTotal();
+        
     }//GEN-LAST:event_btnExcluirActionPerformed
     
     /*atualiza tabela venda*/

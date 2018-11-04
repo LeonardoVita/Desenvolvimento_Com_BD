@@ -19,7 +19,7 @@ public class Venda {
     private int qtd_venda;
     private float valor_total;
     private String data_venda;
-    private String bonus;
+    private String bonus = "N";
 
     
     public Venda(){
