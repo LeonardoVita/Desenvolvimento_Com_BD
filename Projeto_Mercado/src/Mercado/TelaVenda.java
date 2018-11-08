@@ -130,20 +130,20 @@ public class TelaVenda extends javax.swing.JFrame {
 
         Tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Cod", "Produto", "Quantidade", "Preço Unitario", "Valor Total", "bonus"
+                "Produto", "Quantidade", "Preço Unitario", "Valor Total", "Local"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -161,9 +161,8 @@ public class TelaVenda extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Tabela);
         if (Tabela.getColumnModel().getColumnCount() > 0) {
-            Tabela.getColumnModel().getColumn(0).setPreferredWidth(30);
-            Tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
-            Tabela.getColumnModel().getColumn(3).setPreferredWidth(100);
+            Tabela.getColumnModel().getColumn(0).setPreferredWidth(150);
+            Tabela.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -298,13 +297,15 @@ public class TelaVenda extends javax.swing.JFrame {
         
         DefaultTableModel modelo = (DefaultTableModel) Tabela.getModel();
         
-        int CodVenda;
         
-        CodVenda = (int) modelo.getValueAt(Tabela.getSelectedRow(),0);
+        String nomeCli = jComboCliente.getSelectedItem().toString();
+        String prod = (String) modelo.getValueAt(Tabela.getSelectedRow(),0);;
+        String CodLocal = jComboLocal.getSelectedItem().toString();
+        
         
         /*EXCLUIR A VENDA*/
         
-        telaDao.excluirVenda(CodVenda);
+        telaDao.excluirVenda(nomeCli,prod,CodLocal);
         
         attTabela();
         attDesc();
@@ -327,12 +328,12 @@ public class TelaVenda extends javax.swing.JFrame {
         for (ItemTabela p : list) { 
             
             modelo.addRow(new Object[]{
-                p.getCodVenda(),
+                
                 p.getDescricao(),
                 p.getQtd_venda(),
                 p.getValor_unitario(),
                 p.getValor_Total(),
-                p.getBonus()
+                p.getCodLocal()                
             });
         }           
         
@@ -345,7 +346,7 @@ public class TelaVenda extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel)Tabela.getModel();      
         
        for (int x = 0;x <= dtm.getRowCount()-1;x++){
-           total +=Float.parseFloat(dtm.getValueAt(x, 4).toString());
+           total +=Float.parseFloat(dtm.getValueAt(x, 3).toString());
        }            
         
        String strTotal = String.format("%.2f", total); 

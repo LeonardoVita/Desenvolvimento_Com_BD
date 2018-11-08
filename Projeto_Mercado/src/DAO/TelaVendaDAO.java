@@ -110,13 +110,26 @@ public class TelaVendaDAO {
 
             try {
                 con.setAutoCommit(false);
-
+                
+                /*Verificando chaves primarias*/
+                
+                rs=stmt.executeQuery("select CodCli,CodProd,CodLocal from venda"
+                        + " where CodCli="+vd.getCodCli());
+                
+                while(rs.next()){
+                    if(rs.getInt("CodProd") == vd.getCodProd() &&    
+                            rs.getInt("CodLocal") == vd.getCodLocal())
+                        throw new Exception("Ja existe uma compra desse produto "
+                                + "nesta localidade");
+                }
+                
+                
                 /*UPDATE NA TABELA PRODUTO*/
                 rs=stmt.executeQuery("select qtd_estoque from produto "
                         + "where CodProd="+vd.getCodProd()+";");
                 rs.next();
                 if(rs.getInt(1)< vd.getQtd_venda()){
-                    throw  new Exception();
+                    throw  new Exception("Quantidade de venda excede ao estoque");
                 }
                 
                 stmt.executeUpdate("update produto set qtd_estoque = qtd_estoque - " + vd.getQtd_venda()
@@ -128,9 +141,11 @@ public class TelaVendaDAO {
                 localFab = rs.getInt(1);
 
                 if (localFab == vd.getCodLocal()) {
-                    System.out.print("valor original: " + vd.getValor_total() + " ");
+                    float valorIni = vd.getValor_total();
                     vd.setValor_total((float) (vd.getValor_total() - (vd.getValor_total() * 0.10)));
-                    System.out.println("Valor com desconto Local: " + vd.getValor_total());
+                    float valorDes = vd.getValor_total(); 
+                    JOptionPane.showMessageDialog(null,"Valor Inicial: "+valorIni
+                            +" Desconto local: "+valorDes);
                 } else {
                     System.out.println("Produto nao fab no local de compra");
                 }
@@ -141,41 +156,54 @@ public class TelaVendaDAO {
                 bonus = rs.getInt(1);
 
                 if (bonus >= 100) {
+                    
                     rs = stmt.executeQuery("select qtd_min,qtd_max,percentual from desconto"
                             + " where CodProd =" + vd.getCodProd());
+                    
+                    rs.next();                   
+                        
+                    if(rs.getInt("qtd_min") > vd.getQtd_venda()){
 
-                    while (rs.next()) {
+                        JOptionPane.showMessageDialog(null,"Você nao comprou"
+                                + " quantidade suficiente para ganhar "
+                                + "desconto (quantidade:" +vd.getQtd_venda()
+                                +")","quantidade insuficiente",
+                                JOptionPane.ERROR_MESSAGE);
 
-                        if (rs.getInt("qtd_min") <= vd.getQtd_venda()
-                                && rs.getInt("qtd_max") >= vd.getQtd_venda()) {
+                    }else{
+                        do{
 
-                            vd.setBonus("S");
-                            System.out.print("valor Original:" + vd.getValor_total());
+                            if (rs.getInt("qtd_min") <= vd.getQtd_venda()
+                                    && rs.getInt("qtd_max") >= vd.getQtd_venda()) {
 
-                            float desconto = (float) vd.getValor_total() * (rs.getInt(3) / 100f);
-                            vd.setValor_total((float) vd.getValor_total() - desconto);
 
-                            System.out.println("//valor com desconto bonus:"
-                                    + vd.getValor_total());
-                            
-                            /*UPDATE NA TABELA CLIENTE*/
-                            stmt.executeUpdate("update cliente set bonus ="
-                                    + "bonus-100 where CodCli =" + vd.getCodCli() + ";");
-                            break;
-                        }
+                                System.out.print("valor Original:" + vd.getValor_total());
 
+                                float desconto = (float) vd.getValor_total() * (rs.getInt(3) / 100f);
+                                vd.setValor_total((float) vd.getValor_total() - desconto);
+
+                                System.out.println("//valor com desconto bonus:"
+                                        + vd.getValor_total());
+
+                                /*UPDATE NA TABELA CLIENTE*/
+                                stmt.executeUpdate("update cliente set bonus ="
+                                        + "bonus-100 where CodCli =" + vd.getCodCli() + ";");
+                                break;
+                            }
+
+                        }while(rs.next());
                     }
-
                 } else {
-                    System.out.println("Cliente nao tem bonus ou nao comprou qtd suficiente");
+                    JOptionPane.showMessageDialog(null,"Você nao tem bonus "
+                            + "suficiente para desconto","Bonus insuficiente",
+                            JOptionPane.ERROR_MESSAGE);
                 }
 
                 /*INSERINDO NA TABELA VENDA*/
-                stmt.executeUpdate("insert into venda values (default,"
+                stmt.executeUpdate("insert into venda values ("
                         + vd.getCodCli() + "," + vd.getCodProd() + ","
                         + vd.getCodLocal() + "," + vd.getQtd_venda() + ","
-                        + vd.getValor_total() + ",'" + vd.getData_venda() + "','"
-                        + vd.getBonus() + "');");
+                        + vd.getValor_total() + ",'" + vd.getData_venda()+"');");
 
                 con.commit();
                 System.out.println("commit");
@@ -187,8 +215,7 @@ public class TelaVendaDAO {
             } catch (Exception ex) {
                 con.rollback();
                 System.out.println("rollback");
-                JOptionPane.showMessageDialog(null,"Quantidade de compra excede "
-                        + "ao estoque","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             } finally {
                 con.setAutoCommit(true);
             }
@@ -198,7 +225,7 @@ public class TelaVendaDAO {
         }
     }
 
-    public void excluirVenda(int CodVenda) {
+    public void excluirVenda(String nomeCli,String nomeProd,String nomeLocal) {
 
         Connection con;
         Statement stmt;
@@ -208,39 +235,76 @@ public class TelaVendaDAO {
             con = fabr.conexao();
             stmt = con.createStatement();
             ResultSet rs;
-
+            
+            int CodCli;
+            int CodProd;
+            int CodLocal;
+            
+            rs=stmt.executeQuery("select CodCli from Cliente where nome='"+nomeCli+"';");
+            rs.next();
+            CodCli=rs.getInt("CodCli");
+            rs=stmt.executeQuery("select CodProd from Produto where descricao='"+nomeProd+"';");
+            rs.next();
+            CodProd=rs.getInt("CodProd");
+            rs=stmt.executeQuery("select CodLocal from Localidade where nome='"+nomeLocal+"';");
+            rs.next();
+            CodLocal=rs.getInt("CodLocal");
+            
             try {
                 con.setAutoCommit(false);
 
                 /* TRATAR ESTOQUE */
-                rs=stmt.executeQuery("select CodProd,qtd_venda from venda"
-                        + " where CodVenda ="+CodVenda+";");
+                rs=stmt.executeQuery("select qtd_venda from venda"
+                        + " where CodCli ="+CodCli
+                        +" and CodProd ="+CodProd
+                        +" and CodLocal ="+CodLocal+";");
                 rs.next();
-                int CodProd = rs.getInt("CodProd");
+                
                 int qtd = rs.getInt("qtd_venda");
                 
                 stmt.executeUpdate("update produto set qtd_estoque ="
                         + " qtd_estoque+"+qtd+" where CodProd ="+CodProd+";");        
                 
                 
-                /* DEVOLVER BONUS DO CLIENTE */
+                /* DEVOLVER BONUS DO CLIENTE */                      
                 
-                rs=stmt.executeQuery("select bonus from venda"
-                        + " where CodVenda="+CodVenda);                
+                
+                rs=stmt.executeQuery("select qtd_venda,valor_total "
+                        + "from venda where CodCli ="+CodCli
+                        +" and CodProd ="+CodProd
+                        +" and CodLocal ="+CodLocal+";");
                 
                 rs.next();
-                if(rs.getString("bonus").equals("S")){
-                   stmt.executeUpdate("update cliente set bonus= bonus+100"
-                           + " where CodCli in(select CodCli from venda"
-                           + " where CodVenda="+CodVenda +")"); 
+                float vdValorTotal = rs.getFloat("valor_total");
+                int qtdVenda =rs.getInt("qtd_venda");
+                
+                rs= stmt.executeQuery("select preco_unitario from produto "
+                        + "where CodProd ="+CodProd);
+                rs.next();
+                float valorCal = qtd*rs.getFloat("preco_unitario");
+                
+                rs = stmt.executeQuery("select Codlocal from produto where CodProd =" +CodProd);
+                rs.next();
+                int localFabProd = rs.getInt(1);
+                
+                if(localFabProd == CodLocal)
+                    valorCal -= valorCal * 0.10;
+                
+                if(valorCal > vdValorTotal){
+                    stmt.executeUpdate("update Cliente set bonus=bonus + 100"); 
+                    JOptionPane.showMessageDialog(null,"100 pontos Bonus "
+                            + "devolvido ao Cliente");
                 }else{
-                    System.out.println("Compra sem desconto bonus");
-                }              
+                   JOptionPane.showMessageDialog(null,"Nenhum bonus devolvido ao"
+                           + " Cliente","Devolução",JOptionPane.ERROR_MESSAGE); 
+                }
                 
                 /* DELETAR A VENDA */
                 
                 stmt.executeUpdate("delete from venda where "
-                        + "CodVenda ="+CodVenda);          
+                        + "CodCli ="+CodCli
+                        +" and CodProd ="+CodProd
+                        +" and CodLocal ="+CodLocal+";");          
                 
                 
                 con.commit();

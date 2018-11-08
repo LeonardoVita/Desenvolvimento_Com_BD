@@ -48,16 +48,14 @@ alter table produto add constraint localidade_produto_fk
 foreign key (CodLocal) references localidade(CodLocal);
 
 create table venda(
-CodVenda integer auto_increment,
 CodCli integer,
 CodProd integer,
 CodLocal integer,
 qtd_venda integer unsigned,
 valor_total float,
 data_venda date,
-bonus enum('S','N'),
 
-primary key (CodVenda,CodCli,CodProd,CodLocal)
+primary key (CodCli,CodProd,CodLocal)
  )ENGINE = InnoDB;
  
  alter table venda add constraint cliente_venda_fk
@@ -147,41 +145,49 @@ insert into desconto values
 --
 
 -- --------------------------------------------------------
+drop user if exists 'Leonardo'@'localhost';
+drop user if exists 'Leandro'@'localhost';
+drop user if exists 'Agatha'@'localhost';
+drop user if exists 'Larissa'@'localhost';
+drop user if exists 'Marcia'@'localhost';
+drop user if exists 'Maria'@'localhost';
+drop user if exists 'Pedro'@'localhost';
+drop user if exists 'Ronaldo'@'localhost';
+drop user if exists 'Thiago'@'localhost';
 
-
-CREATE USER if not exists 'Leonardo'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Leonardo'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Leonardo'@'localhost';
 
-CREATE USER if not exists 'Leandro'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Leandro'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Leandro'@'localhost';
 
-CREATE USER if not exists 'Agatha'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Agatha'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Agatha'@'localhost';
 
-CREATE USER if not exists 'Larissa'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Larissa'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Larissa'@'localhost';
 
-CREATE USER if not exists 'Marcia'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Marcia'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Marcia'@'localhost';
 
-CREATE USER if not exists 'Maria'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Maria'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Maria'@'localhost';
 
-CREATE USER if not exists 'Pedro'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Pedro'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Pedro'@'localhost';
 
-CREATE USER if not exists 'Ronaldo'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Ronaldo'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Ronaldo'@'localhost';
 
-CREATE USER if not exists 'Thiago'@'localhost' IDENTIFIED BY '';
+CREATE USER 'Thiago'@'localhost' IDENTIFIED BY '';
 
 GRANT ALL PRIVILEGES ON * . * TO 'Thiago'@'localhost';
 

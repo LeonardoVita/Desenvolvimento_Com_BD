@@ -10,27 +10,19 @@ package Mercado;
  * @author Leo
  */
 public class ItemTabela {
-    private int codVenda;
+    
     private String descricao;
     private int qtd_venda;
     private float valor_unitario;
-    private float valor_Total;
-    private String bonus;
+    private float valor_Total; 
+    private int CodLocal;
 
-    public int getCodVenda() {
-        return codVenda;
+    public int getCodLocal() {
+        return CodLocal;
     }
 
-    public void setCodVenda(int codVenda) {
-        this.codVenda = codVenda;
-    }
-
-    public String getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(String bonus) {
-        this.bonus = bonus;
+    public void setCodLocal(int CodLocal) {
+        this.CodLocal = CodLocal;
     }
 
     

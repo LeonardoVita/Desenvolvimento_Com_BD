@@ -17,20 +17,13 @@ public class Venda {
     private int qtd_venda;
     private float valor_total;
     private String data_venda;
-    private String bonus = "N";
+    
 
     
     public Venda(){        
           
     }
-
-    public String getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(String bonus) {
-        this.bonus = bonus;
-    }
+   
     
     public int getCodCli() {
         return CodCli;
