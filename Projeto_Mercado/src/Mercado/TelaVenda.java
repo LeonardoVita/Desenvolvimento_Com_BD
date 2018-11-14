@@ -299,8 +299,8 @@ public class TelaVenda extends javax.swing.JFrame {
         
         
         String nomeCli = jComboCliente.getSelectedItem().toString();
-        String prod = (String) modelo.getValueAt(Tabela.getSelectedRow(),0);;
-        String CodLocal = jComboLocal.getSelectedItem().toString();
+        String prod = (String) modelo.getValueAt(Tabela.getSelectedRow(),0);
+        int CodLocal = (int) modelo.getValueAt(Tabela.getSelectedRow(),4);
         
         
         /*EXCLUIR A VENDA*/

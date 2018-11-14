@@ -225,7 +225,7 @@ public class TelaVendaDAO {
         }
     }
 
-    public void excluirVenda(String nomeCli,String nomeProd,String nomeLocal) {
+    public void excluirVenda(String nomeCli,String nomeProd,int CodLocal) {
 
         Connection con;
         Statement stmt;
@@ -237,18 +237,14 @@ public class TelaVendaDAO {
             ResultSet rs;
             
             int CodCli;
-            int CodProd;
-            int CodLocal;
+            int CodProd;            
             
             rs=stmt.executeQuery("select CodCli from Cliente where nome='"+nomeCli+"';");
             rs.next();
             CodCli=rs.getInt("CodCli");
             rs=stmt.executeQuery("select CodProd from Produto where descricao='"+nomeProd+"';");
             rs.next();
-            CodProd=rs.getInt("CodProd");
-            rs=stmt.executeQuery("select CodLocal from Localidade where nome='"+nomeLocal+"';");
-            rs.next();
-            CodLocal=rs.getInt("CodLocal");
+            CodProd=rs.getInt("CodProd");            
             
             try {
                 con.setAutoCommit(false);
@@ -260,7 +256,7 @@ public class TelaVendaDAO {
                         +" and CodLocal ="+CodLocal+";");
                 rs.next();
                 
-                int qtd = rs.getInt("qtd_venda");
+                int qtd = rs.getInt(1);
                 
                 stmt.executeUpdate("update produto set qtd_estoque ="
                         + " qtd_estoque+"+qtd+" where CodProd ="+CodProd+";");        
@@ -291,7 +287,8 @@ public class TelaVendaDAO {
                     valorCal -= valorCal * 0.10;
                 
                 if(valorCal > vdValorTotal){
-                    stmt.executeUpdate("update Cliente set bonus=bonus + 100"); 
+                    stmt.executeUpdate("update Cliente set bonus=bonus + 100"
+                            + " where CodCli="+CodCli+";" ); 
                     JOptionPane.showMessageDialog(null,"100 pontos Bonus "
                             + "devolvido ao Cliente");
                 }else{
